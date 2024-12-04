@@ -3,7 +3,7 @@ const router = express.Router();
 
 const editController = require("../app/controllers/EditController");
 
-router.use("/:slug", editController.show);
-router.use("/", editController.edit);
+router.get("/:slug", editController.show);
+router.get("/", editController.edit);
 
 module.exports = router;

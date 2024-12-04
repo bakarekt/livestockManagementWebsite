@@ -9,14 +9,14 @@ const route = require("../routes/index"); //xử lý route
 const User = require("../app/models/userModel"); //Sử dụng model User để test kết nối với database
 
 //Test kết nối (sau này bỏ)
-(async () => {
-  try {
-    await User.sync({ alter: true }); // Sử dụng `alter` để cập nhật bảng mà không làm mất dữ liệu
-    console.log("User table synchronized successfully.");
-  } catch (err) {
-    console.error("Error synchronizing the User table:", err);
-  }
-})();
+// (async () => {
+//   try {
+//     await User.sync({ alter: true }); // Sử dụng `alter` để cập nhật bảng mà không làm mất dữ liệu
+//     console.log("User table synchronized successfully.");
+//   } catch (err) {
+//     console.error("Error synchronizing the User table:", err);
+//   }
+// })();
 
 //Cài đặt file tĩnh
 app.use(express.static(path.join(__dirname, "../public")));

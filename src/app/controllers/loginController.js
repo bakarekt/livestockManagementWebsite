@@ -1,9 +1,8 @@
 class LoginController {
-    //GET edit
-    login(req, res) {
-      res.render("login");
-    }
+  //GET edit
+  login(req, res) {
+    res.render("login");
   }
-  
-  module.exports = new LoginController();
-  
+}
+
+module.exports = new LoginController();

@@ -1,4 +1,3 @@
-
 const User = require("../models/userModel");
 const { sequelizeToObject } = require("../../util/mysql");
 

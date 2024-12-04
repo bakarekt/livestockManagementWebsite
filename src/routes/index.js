@@ -5,7 +5,6 @@ const userRouter = require("./userRoutes");
 const loginRouter = require("./loginRoutes");
 
 function route(app) {
-
   app.use("/login", loginRouter);
 
   app.use("/user", userRouter);
@@ -16,9 +15,6 @@ function route(app) {
 
   app.use("/", siteRouter);
 
-  app.get("/login", (req, res) => {
-    res.render("login");
-  });
   // app.post("/login", (req, res) => {
   //   res.send("login");
   // }); ------- Đang nghiên cứu

@@ -3,20 +3,10 @@ const app = express();
 const port = 999; //port
 const handlebars = require("express-handlebars"); //template engine
 const path = require("path"); //xử lý đường dẫn
-const meththodOverride = require("method-override"); //ghi đè phương thức
+const methodOverride = require("method-override"); //ghi đè phương thức
+const route = require("../routes/index");
 const session = require("express-session");
-const route = require("../routes/index"); //xử lý route
 const User = require("../app/models/userModel"); //Sử dụng model User để test kết nối với database
-
-//Test kết nối (sau này bỏ)
-// (async () => {
-//   try {
-//     await User.sync({ alter: true }); // Sử dụng `alter` để cập nhật bảng mà không làm mất dữ liệu
-//     console.log("User table synchronized successfully.");
-//   } catch (err) {
-//     console.error("Error synchronizing the User table:", err);
-//   }
-// })();
 
 //Cài đặt file tĩnh
 app.use(express.static(path.join(__dirname, "../public")));
@@ -26,12 +16,52 @@ app.engine(
   "hbs",
   handlebars.engine({
     extname: ".hbs",
-  }),
+  })
 );
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
 
-//Routes
+// Middleware to parse request bodies
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Middleware to handle sessions
+app.use(session({
+  secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: true
+}));
+
+// Middleware to check if user is authenticated
+function isAuthenticated(req, res, next) {
+  if (req.session.user) {
+    return next();
+  } else {
+    res.redirect('/login');
+  }
+}
+
+// Add the login route
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  // Here you would normally check the username and password against your database
+  if (username === 'admin@gmail.com' && password === 'password') {
+    req.session.user = { username };
+    res.redirect('/');
+  } else {
+    res.redirect('/login');
+  }
+});
+
+// Add the route for the home page with authentication check
+app.get('/', isAuthenticated, (req, res) => {
+  res.render('home', { admin: true }); // Pass admin variable for testing
+});
+
 route(app);
 
 //Listen

@@ -3,6 +3,7 @@ const { Sequelize } = require("sequelize");
 const sequelize = new Sequelize("livestock", "root", "admin", {
   host: "localhost",
   dialect: "mysql",
+  logging: false,
 });
 
 async function initializeDatabase() {
@@ -20,5 +21,7 @@ async function initializeDatabase() {
     throw err; // Rethrow error to prevent app from continuing
   }
 }
+
+initializeDatabase();
 
 module.exports = { sequelize, initializeDatabase };
